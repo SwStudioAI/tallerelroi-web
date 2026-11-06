@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Estudio · Taller El Roi</title>
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <style>
+      :root{
+        --bg:#171310; --panel:#221b15; --panel2:#2a211a; --line:#3d3226;
+        --ink:#f3ead9; --soft:#c9b896; --wood:#ce8d3c; --green:#7fae4c;
+        --danger:#d96a5a; --radius:14px;
+      }
+      *{ box-sizing:border-box; }
+      body{ margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+      .wrap{ max-width:880px; margin:0 auto; padding:28px 18px 60px; }
+      header.top{ display:flex; align-items:center; gap:14px; padding:10px 0 22px; }
+      header.top img{ height:44px; width:auto; }
+      header.top h1{ font-size:20px; margin:0; letter-spacing:.02em; }
+      header.top p{ margin:2px 0 0; color:var(--soft); font-size:13px; }
+      .card{ background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; margin-bottom:16px; }
+      label{ display:block; font-size:13px; color:var(--soft); margin:12px 0 6px; }
+      label:first-child{ margin-top:0; }
+      input[type=text], input[type=password], textarea, select{
+        width:100%; padding:11px 12px; border-radius:10px; border:1px solid var(--line);
+        background:var(--panel2); color:var(--ink); font-size:15px; font-family:inherit;
+      }
+      textarea{ min-height:74px; resize:vertical; }
+      button{
+        appearance:none; border:0; border-radius:10px; padding:11px 18px; font-size:15px;
+        font-weight:700; cursor:pointer; background:var(--wood); color:#1c150e;
+      }
+      button.sec{ background:transparent; color:var(--soft); border:1px solid var(--line); font-weight:600; }
+      button.danger{ background:transparent; color:var(--danger); border:1px solid var(--danger); font-weight:600; }
+      button:disabled{ opacity:.55; cursor:wait; }
+      .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+      .msg{ font-size:14px; min-height:20px; margin-top:10px; }
+      .msg.ok{ color:var(--green); } .msg.err{ color:var(--danger); }
+      .trabajo{ display:grid; grid-template-columns:120px 1fr; gap:16px; }
+      .trabajo .ph{ width:120px; height:120px; border-radius:10px; overflow:hidden; background:#100d0a; border:1px solid var(--line); }
+      .trabajo .ph img{ width:100%; height:100%; object-fit:cover; display:block; }
+      .trabajo .ph .sin{ display:flex; align-items:center; justify-content:center; height:100%; color:var(--soft); font-size:12px; text-align:center; padding:8px; }
+      .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:0 14px; }
+      @media (max-width:640px){ .trabajo{ grid-template-columns:1fr; } .trabajo .ph{ width:100%; height:180px; } .grid2{ grid-template-columns:1fr; } }
+      .hidden{ display:none !important; }
+      .muted{ color:var(--soft); font-size:13px; }
+      input[type=file]{ color:var(--soft); font-size:13px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <img src="/assets/logo-marca-de-agua.png" alt="Taller El Roi" />
+        <div>
+          <h1>Estudio de Taller El Roi</h1>
+          <p>Aquí editas los trabajos que se ven en tu página: fotos y detalles.</p>
+        </div>
+      </header>
+
+      <!-- Acceso -->
+      <section id="login" class="card">
+        <label for="clave">Tu clave de dueño</label>
+        <input type="password" id="clave" placeholder="Escribe tu clave" autocomplete="current-password" />
+        <div class="row" style="margin-top:14px">
+          <button id="entrar">Entrar</button>
+        </div>
+        <p class="msg" id="login-msg"></p>
+      </section>
+
+      <!-- Panel -->
+      <section id="panel" class="hidden">
+        <div class="card">
+          <div class="row" style="justify-content:space-between">
+            <b style="font-size:17px">Trabajos publicados</b>
+            <span class="row">
+              <button id="nuevo" class="sec">+ Nuevo trabajo</button>
+              <button id="salir" class="sec">Salir</button>
+            </span>
+          </div>
+          <p class="muted">Cada trabajo pertenece a una categoría. Cuando un cliente toca esa casilla en la página, ve los trabajos que hayas puesto aquí.</p>
+          <p class="msg" id="panel-msg"></p>
+        </div>
+        <div id="lista"></div>
+      </section>
+    </div>
+
+    <template id="tpl-trabajo">
+      <article class="card trabajo">
+        <div class="ph"></div>
+        <div>
+          <label>Título del trabajo</label>
+          <input type="text" class="f-titulo" placeholder="Ej.: Cocina integral en roble" />
+          <div class="grid2">
+            <div>
+              <label>Categoría</label>
+              <select class="f-categoria"></select>
+            </div>
+            <div>
+              <label>Orden en la lista</label>
+              <input type="text" class="f-orden" inputmode="numeric" />
+            </div>
+          </div>
+          <label>Descripción</label>
+          <textarea class="f-descripcion" placeholder="Materiales, medidas, detalles del trabajo..."></textarea>
+          <label>Foto del trabajo</label>
+          <input type="file" class="f-foto" accept="image/*" />
+          <div class="row" style="margin-top:14px">
+            <button class="b-guardar">Guardar cambios</button>
+            <button class="b-borrar danger">Borrar trabajo</button>
+          </div>
+          <p class="msg"></p>
+        </div>
+      </article>
+    </template>
+
+    <script>
+      const CATEGORIAS = ["Muebles de cocina","Clósets","Puertas","Pérgolas","Huellas para gradas","Trabajos en piedra","Ranurados"];
+      const $ = (s, r=document) => r.querySelector(s);
+      let key = sessionStorage.getItem("roi_key") || "";
+      let trabajos = [];
+
+      const api = async (path, opts={}) => {
+        const res = await fetch(path, { ...opts, headers: { "x-owner-key": key, ...(opts.headers||{}) } });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || "Algo salió mal");
+        return data;
+      };
+
+      function msg(el, text, ok=true){ el.textContent = text; el.className = "msg " + (ok ? "ok" : "err"); }
+
+      async function cargar(){
+        trabajos = await api("/api/admin/trabajos");
+        const lista = $("#lista"); lista.innerHTML = "";
+        if (!trabajos.length){
+          lista.innerHTML = '<div class="card"><p class="muted">Todavía no hay trabajos. Toca «+ Nuevo trabajo» para agregar el primero.</p></div>';
+          return;
+        }
+        trabajos.forEach(t => lista.appendChild(tarjeta(t)));
+      }
+
+      function tarjeta(t){
+        const node = $("#tpl-trabajo").content.firstElementChild.cloneNode(true);
+        const ph = $(".ph", node);
+        ph.innerHTML = t.foto ? `<img src="${t.foto}" alt="">` : '<div class="sin">Sin foto todavía</div>';
+        $(".f-titulo", node).value = t.titulo || "";
+        const sel = $(".f-categoria", node);
+        sel.innerHTML = CATEGORIAS.map(c => `<option ${c===t.categoria?"selected":""}>${c}</option>`).join("");
+        $(".f-orden", node).value = t.orden ?? 0;
+        $(".f-descripcion", node).value = t.descripcion || "";
+        const m = $(".msg", node);
+
+        $(".b-guardar", node).addEventListener("click", async (ev) => {
+          const btn = ev.currentTarget; btn.disabled = true; msg(m, "Guardando...");
+          try {
+            await api(`/api/admin/trabajos/${t.id}`, {
+              method: "PUT", headers: { "content-type": "application/json" },
+              body: JSON.stringify({
+                titulo: $(".f-titulo", node).value,
+                categoria: sel.value,
+                descripcion: $(".f-descripcion", node).value,
+                orden: parseInt($(".f-orden", node).value || "0", 10),
+              }),
+            });
+            const file = $(".f-foto", node).files[0];
+            if (file){
+              msg(m, "Subiendo la foto...");
+              const foto = await prepararFoto(file);
+              const fd = new FormData(); fd.append("foto", foto, "foto.jpg");
+              const r = await api(`/api/admin/trabajos/${t.id}/foto`, { method: "POST", body: fd });
+              t.foto = r.foto;
+              ph.innerHTML = `<img src="${r.foto}" alt="">`;
+              $(".f-foto", node).value = "";
+            }
+            msg(m, "Guardado. Ya se ve en tu página.");
+          } catch(e){ msg(m, e.message, false); }
+          btn.disabled = false;
+        });
+
+        $(".b-borrar", node).addEventListener("click", async (ev) => {
+          if (!confirm("¿Seguro que quieres borrar este trabajo?")) return;
+          const btn = ev.currentTarget; btn.disabled = true;
+          try { await api(`/api/admin/trabajos/${t.id}`, { method: "DELETE" }); node.remove(); }
+          catch(e){ msg(m, e.message, false); btn.disabled = false; }
+        });
+        return node;
+      }
+
+      // Reduce fotos grandes en el navegador antes de subir (máx 1600px, JPEG).
+      function prepararFoto(file){
+        return new Promise((resolve) => {
+          if (!file.type.startsWith("image/") || file.size < 1500000) return resolve(file);
+          const img = new Image();
+          img.onload = () => {
+            const max = 1600, esc = Math.min(1, max / Math.max(img.width, img.height));
+            const c = document.createElement("canvas");
+            c.width = Math.round(img.width * esc); c.height = Math.round(img.height * esc);
+            c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+            c.toBlob(b => resolve(b || file), "image/jpeg", 0.85);
+            URL.revokeObjectURL(img.src);
+          };
+          img.onerror = () => resolve(file);
+          img.src = URL.createObjectURL(file);
+        });
+      }
+
+      async function entrar(){
+        key = $("#clave").value.trim();
+        const m = $("#login-msg");
+        if (!key){ msg(m, "Escribe tu clave.", false); return; }
+        try {
+          await api("/api/admin/trabajos");
+          sessionStorage.setItem("roi_key", key);
+          $("#login").classList.add("hidden");
+          $("#panel").classList.remove("hidden");
+          await cargar();
+        } catch(e){ msg(m, "Clave incorrecta. Revisa e inténtalo de nuevo.", false); }
+      }
+
+      $("#entrar").addEventListener("click", entrar);
+      $("#clave").addEventListener("keydown", e => { if (e.key === "Enter") entrar(); });
+      $("#salir").addEventListener("click", () => { sessionStorage.removeItem("roi_key"); location.reload(); });
+      $("#nuevo").addEventListener("click", async () => {
+        const m = $("#panel-msg"); msg(m, "Creando...");
+        try {
+          const r = await api("/api/admin/trabajos", {
+            method: "POST", headers: { "content-type": "application/json" },
+            body: JSON.stringify({ titulo: "Trabajo nuevo", categoria: CATEGORIAS[0] }),
+          });
+          msg(m, "Trabajo creado. Edítalo abajo y guarda.");
+          await cargar();
+          window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+          void r;
+        } catch(e){ msg(m, e.message, false); }
+      });
+
+      if (key){
+        api("/api/admin/trabajos").then(() => {
+          $("#login").classList.add("hidden");
+          $("#panel").classList.remove("hidden");
+          cargar();
+        }).catch(() => sessionStorage.removeItem("roi_key"));
+      }
+    </script>
+  </body>
+</html>

@@ -221,6 +221,7 @@
       .trabajos{ background:var(--bg-2); }
       .gal{ display:grid; grid-template-columns:1fr; gap:clamp(28px,4vw,48px); }
       figure.work{ margin:0; }
+      a.work{ display:block; text-decoration:none; color:inherit; }
       .work .ph{ overflow:hidden; border-radius:6px; }
       .work img{ width:100%; height:100%; object-fit:cover; transition:transform .8s ease; }
       .work:hover img{ transform:scale(1.03); }
@@ -328,6 +329,8 @@
       }
       footer .fbrand{ font-weight:900; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); font-size:13px; }
       footer .fbrand span{ color:var(--wood); }
+      footer .fmark{ flex:0 0 100%; display:flex; justify-content:center; padding:4px 0 10px; }
+      footer .fmark img{ height:76px; width:auto; opacity:.55; }
     </style>
   </head>
   <body>
@@ -469,38 +472,42 @@
           <span class="sec-num">02</span>
           <div>
             <h2 class="sec-title">Trabajos que <span class="serif-i">inspiran</span></h2>
-            <p class="sec-lede">Así se ve el tipo de pieza que fabricamos en el taller: sólida, cálida y hecha para durar.</p>
+            <p class="sec-lede">Toca una categoría y mira los trabajos que el taller ya ha realizado: sólidos, cálidos y hechos para durar.</p>
           </div>
         </div>
 
         <div class="gal">
-          <figure class="work w-wide reveal">
+          <a class="work w-wide reveal" href="/trabajos/muebles-de-cocina">
             <div class="ph"><img src="assets/cocina.jpg" alt="Cocina integral de madera con vitrinas y anaqueles" /></div>
-            <figcaption><b>Cocina a medida</b><span>Muebles de cocina</span></figcaption>
-          </figure>
-          <figure class="work w-tall reveal">
+            <figcaption><b>Muebles de cocina</b><span>Ver trabajos →</span></figcaption>
+          </a>
+          <a class="work w-tall reveal" href="/trabajos/closets">
             <div class="ph"><img src="assets/closet.jpg" alt="Vestidor de madera clara con espejo central" /></div>
-            <figcaption><b>Clóset vestidor</b><span>Clósets</span></figcaption>
-          </figure>
-          <figure class="work w-wide reveal">
-            <div class="ph"><img src="assets/pergola.jpg" alt="Pérgola de madera con muebles de terraza bajo los árboles" /></div>
-            <figcaption><b>Pérgola de jardín</b><span>Pérgolas</span></figcaption>
-          </figure>
-          <figure class="work w-tall reveal">
-            <div class="ph"><img src="assets/gradas.jpg" alt="Gradas de madera con pasamanos a juego" /></div>
-            <figcaption><b>Gradas de madera</b><span>Huellas para gradas</span></figcaption>
-          </figure>
-          <figure class="work w-wide reveal">
-            <div class="ph"><img src="assets/ranurados.jpg" alt="Muro de sala con panel ranurado de madera e iluminación cálida" /></div>
-            <figcaption><b>Panel ranurado</b><span>Ranurados</span></figcaption>
-          </figure>
-          <figure class="work w-wide reveal">
+            <figcaption><b>Clósets</b><span>Ver trabajos →</span></figcaption>
+          </a>
+          <a class="work w-wide reveal" href="/trabajos/puertas">
             <div class="ph"><img src="assets/puertas.jpg" alt="Puerta de entrada de madera con herraje negro" /></div>
-            <figcaption><b>Puerta principal</b><span>Puertas</span></figcaption>
-          </figure>
+            <figcaption><b>Puertas</b><span>Ver trabajos →</span></figcaption>
+          </a>
+          <a class="work w-tall reveal" href="/trabajos/pergolas">
+            <div class="ph"><img src="assets/pergola.jpg" alt="Pérgola de madera con muebles de terraza bajo los árboles" /></div>
+            <figcaption><b>Pérgolas</b><span>Ver trabajos →</span></figcaption>
+          </a>
+          <a class="work w-wide reveal" href="/trabajos/huellas-para-gradas">
+            <div class="ph"><img src="assets/gradas.jpg" alt="Gradas de madera con pasamanos a juego" /></div>
+            <figcaption><b>Huellas para gradas</b><span>Ver trabajos →</span></figcaption>
+          </a>
+          <a class="work w-tall reveal" href="/trabajos/trabajos-en-piedra">
+            <div class="ph"><img src="assets/piedra.jpg" alt="Muro interior revestido en piedra natural" /></div>
+            <figcaption><b>Trabajos en piedra</b><span>Ver trabajos →</span></figcaption>
+          </a>
+          <a class="work w-wide reveal" href="/trabajos/ranurados">
+            <div class="ph"><img src="assets/ranurados.jpg" alt="Muro de sala con panel ranurado de madera e iluminación cálida" /></div>
+            <figcaption><b>Ranurados</b><span>Ver trabajos →</span></figcaption>
+          </a>
         </div>
 
-        <p class="gal-note reveal"><span class="serif-i">Nota:</span> imágenes referenciales de los tipos de trabajo que realiza el taller. Muy pronto publicaremos las fotos reales de nuestros proyectos en Cuenca.</p>
+        <p class="gal-note reveal"><span class="serif-i">Nota:</span> las fotos de estas casillas son referenciales; dentro de cada categoría verás los trabajos reales que el taller ha realizado en Cuenca.</p>
       </div>
     </section>
 
@@ -582,6 +589,7 @@
     </section>
 
     <footer>
+      <div class="fmark"><img src="assets/logo-marca-de-agua.png" alt="Taller El Roi" /></div>
       <span class="fbrand">Taller <span>El Roi</span></span>
       <span>Carpintería a medida · San Miguel de Putushí, Cuenca, Ecuador</span>
       <span>© 2026 Taller El Roi</span>
