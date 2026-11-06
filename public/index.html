@@ -280,6 +280,13 @@
       }
       .sign .name{ font-family:"Newsreader", Georgia, serif; font-style:italic; font-size:26px; color:var(--ink); }
       .sign .role{ font-size:12.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--wood); }
+      .taller-points{ list-style:none; margin:22px 0 4px; padding:0; }
+      .taller-points li{
+        display:flex; gap:12px; align-items:baseline; padding:10px 0;
+        border-top:1px solid var(--line); color:var(--ink-soft); font-size:15.5px;
+      }
+      .taller-points li::before{ content:"—"; color:var(--wood); font-weight:800; }
+      .taller-points li b{ color:var(--ink); }
       @media (min-width:900px){ .taller-grid{ grid-template-columns:1.05fr 1fr; } }
 
       /* ---------- Contacto ---------- */
@@ -352,7 +359,7 @@
       <div class="hero-inner">
         <p class="hero-loc">Taller El Roi · San Miguel de Putushí, Cuenca</p>
         <h1>Muebles a medida, <span class="serif-i">hechos a mano</span> en Cuenca</h1>
-        <p class="hero-sub">Carpintería artesanal para tu casa: cocinas, clósets, puertas, pérgolas y más — diseñados, fabricados e instalados por el taller de Juan Carlos Pasato.</p>
+        <p class="hero-sub">Diseñamos, fabricamos e instalamos cocinas, clósets, puertas, pérgolas y más — con maderas seleccionadas y acabados profesionales. El taller de Juan Carlos Pasato, en Cuenca.</p>
         <div class="hero-actions">
           <a class="btn" href="#contacto">Pedir cotización
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -550,9 +557,14 @@
       <div class="wrap taller-grid">
         <div class="taller-img reveal"><img data-foto="taller" src="assets/taller.jpg" alt="Carpintero marcando una tabla de madera en el banco de trabajo del taller" /></div>
         <div class="taller-txt reveal">
-          <h2>Un taller de barrio, <span class="serif-i">un oficio de familia</span></h2>
-          <p>Taller El Roi está en <b>San Miguel de Putushí, Cuenca</b>, y nace de una convicción sencilla: las cosas bien hechas, con buena madera y sin atajos, duran toda la vida.</p>
-          <p>Aquí no trabajamos con piezas de catálogo. Cada cocina, clóset o puerta se fabrica <b>a la medida de tu casa</b> y se instala con el mismo cuidado con el que se cortó la primera tabla.</p>
+          <h2>Carpintería a medida, <span class="serif-i">estándar profesional</span></h2>
+          <p><b>Taller El Roi</b> es un taller especializado en mobiliario a medida en <b>San Miguel de Putushí, Cuenca</b>. Trabajamos con maderas seleccionadas, medición precisa y acabados profesionales, para que cada proyecto se vea impecable el primer día y se mantenga así con los años.</p>
+          <p>Nada sale de un catálogo: cada cocina, clóset o puerta se diseña según tu espacio, se fabrica pieza por pieza y se instala nivelada y lista para usar. Un solo equipo te acompaña de principio a fin — <b>visita y medición, propuesta, fabricación e instalación</b> — con comunicación clara y compromiso de entrega.</p>
+          <ul class="taller-points">
+            <li><span><b>Diseño y medición a medida</b> — cada proyecto nace de tu espacio, no de una plantilla.</span></li>
+            <li><span><b>Materiales seleccionados</b> — madera y herrajes elegidos para durar.</span></li>
+            <li><span><b>Acabado e instalación profesionales</b> — entregamos la pieza instalada, nivelada y limpia.</span></li>
+          </ul>
           <div class="sign">
             <span class="name">Juan Carlos Pasato</span>
             <span class="role">Fundador · Maestro carpintero</span>
