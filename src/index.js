@@ -74,7 +74,7 @@ function paginaCategoria(cat, trabajos) {
     <link rel="icon" type="image/png" href="/logo-mark.png" sizes="512x512" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <style>
-      :root{ --bg:#171310; --panel:#221b15; --line:#3d3226; --ink:#f3ead9; --soft:#c9b896; --wood:#ce8d3c; }
+      :root{ --bg:#171310; --panel:#221b15; --line:#3d3226; --ink:#f3ead9; --soft:#c9b896; --wood:#73a349; }
       *{ box-sizing:border-box; }
       body{ margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
       .wrap{ max-width:1060px; margin:0 auto; padding:0 clamp(18px,4vw,44px) 70px; }
