@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="Taller El Roi — carpintería a medida de Juan Carlos Pasato en San Miguel de Putushí, Cuenca, Ecuador. Cocinas, clósets, puertas, pérgolas, gradas, piedra y ranurados." />
+    <link rel="icon" href="data:," />
+    <title>Taller El Roi — Carpintería a medida en Cuenca</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;0,800;0,900;1,400&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --bg:#f4eee3;
+        --bg-2:#ece3d2;
+        --ink:#211a12;
+        --ink-soft:#5c5142;
+        --line:rgba(33,26,18,.18);
+        --wood:#9a5a24;
+        --wood-deep:#7c4416;
+        --paper:#faf6ec;
+        --hero-ink:#f7f1e3;
+        --btn-bg:#211a12;
+        --btn-ink:#f7f1e3;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#171310;
+          --bg-2:#1f1a15;
+          --ink:#f0e7d6;
+          --ink-soft:#b3a68f;
+          --line:rgba(240,231,214,.16);
+          --wood:#d08d45;
+          --wood-deep:#d08d45;
+          --paper:#1f1a15;
+          --btn-bg:#f0e7d6;
+          --btn-ink:#211a12;
+          color-scheme: dark;
+        }
+      }
+      *{ box-sizing:border-box; }
+      html{ scroll-behavior:smooth; }
+      @media (prefers-reduced-motion: reduce){
+        html{ scroll-behavior:auto; }
+      }
+      body{
+        margin:0;
+        background:var(--bg);
+        color:var(--ink);
+        font-family:"Libre Franklin", system-ui, -apple-system, sans-serif;
+        font-size:16px;
+        line-height:1.55;
+        -webkit-font-smoothing:antialiased;
+      }
+      img{ display:block; max-width:100%; }
+      a{ color:inherit; }
+      .serif-i{ font-family:"Newsreader", Georgia, serif; font-style:italic; font-weight:500; }
+
+      /* ---------- Nav ---------- */
+      .nav{
+        position:fixed; inset:0 0 auto 0; z-index:50;
+        display:flex; align-items:center; justify-content:space-between;
+        padding:18px clamp(20px,4vw,48px);
+        color:var(--hero-ink);
+        transition:background .35s ease, color .35s ease, box-shadow .35s ease;
+      }
+      .nav.scrolled{
+        background:var(--bg);
+        color:var(--ink);
+        box-shadow:0 1px 0 var(--line);
+      }
+      .brand{
+        font-weight:900; letter-spacing:.14em; text-transform:uppercase;
+        font-size:15px; text-decoration:none; white-space:nowrap;
+      }
+      .brand span{ color:var(--wood); }
+      .nav-links{ display:none; gap:34px; }
+      .nav-links a{
+        text-decoration:none; font-size:13px; font-weight:600;
+        letter-spacing:.12em; text-transform:uppercase; opacity:.85;
+      }
+      .nav-links a:hover{ opacity:1; }
+      .nav-cta{
+        text-decoration:none; font-size:13px; font-weight:700;
+        letter-spacing:.1em; text-transform:uppercase;
+        border:1px solid currentColor; border-radius:999px;
+        padding:10px 18px; white-space:nowrap;
+        transition:background .25s ease, color .25s ease;
+      }
+      .nav-cta:hover{ background:var(--wood); border-color:var(--wood); color:#fff; }
+      @media (min-width:860px){ .nav-links{ display:flex; } }
+
+      /* ---------- Hero ---------- */
+      .hero{
+        position:relative; min-height:100svh;
+        display:flex; flex-direction:column; justify-content:flex-end;
+        color:var(--hero-ink); overflow:hidden;
+        background:#171310;
+      }
+      .hero-img{
+        position:absolute; inset:0; width:100%; height:100%;
+        object-fit:cover; object-position:center 30%;
+      }
+      .hero::after{
+        content:""; position:absolute; inset:0;
+        background:linear-gradient(to top, rgba(16,11,6,.88) 0%, rgba(16,11,6,.45) 42%, rgba(16,11,6,.28) 70%, rgba(16,11,6,.35) 100%);
+      }
+      .hero-inner{
+        position:relative; z-index:2;
+        padding:120px clamp(20px,4vw,48px) clamp(28px,5vh,56px);
+        max-width:1200px;
+      }
+      .hero-loc{
+        display:flex; align-items:center; gap:12px;
+        font-size:12.5px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
+        opacity:.9; margin:0 0 22px;
+      }
+      .hero-loc::before{ content:""; width:38px; height:1px; background:var(--wood); background:#d08d45; }
+      .hero h1{
+        margin:0; font-weight:900; letter-spacing:-.015em;
+        font-size:clamp(44px, 9.2vw, 108px); line-height:.98;
+        max-width:12ch;
+      }
+      .hero h1 .serif-i{ font-weight:500; letter-spacing:0; color:#e9c493; }
+      .hero-sub{
+        margin:26px 0 0; max-width:52ch;
+        font-size:clamp(16px,2vw,19px); line-height:1.6; color:rgba(247,241,227,.88);
+      }
+      .hero-actions{ margin-top:36px; display:flex; flex-wrap:wrap; gap:16px; align-items:center; }
+      .btn{
+        display:inline-flex; align-items:center; gap:10px;
+        background:#f7f1e3; color:#211a12;
+        font-weight:700; font-size:15px; letter-spacing:.02em;
+        text-decoration:none; padding:16px 30px; border-radius:999px;
+        transition:transform .25s ease, background .25s ease;
+      }
+      .btn:hover{ background:#e9c493; }
+      .btn svg{ width:17px; height:17px; flex:none; }
+      .hero-mail{
+        color:var(--hero-ink); font-weight:600; font-size:15px;
+        text-decoration:underline; text-underline-offset:5px; text-decoration-color:rgba(247,241,227,.45);
+      }
+      .hero-mail:hover{ text-decoration-color:#e9c493; }
+      .hero-foot{
+        position:relative; z-index:2;
+        border-top:1px solid rgba(247,241,227,.22);
+        margin:clamp(34px,6vh,64px) clamp(20px,4vw,48px) 0;
+        padding:16px 0 22px;
+        display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+        font-size:12px; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+        color:rgba(247,241,227,.75);
+      }
+
+      /* ---------- Sections ---------- */
+      section{ padding:clamp(72px,11vw,140px) clamp(20px,4vw,48px); }
+      .wrap{ max-width:1200px; margin:0 auto; }
+      .sec-head{ display:flex; align-items:baseline; gap:18px; margin-bottom:clamp(36px,5vw,64px); }
+      .sec-num{
+        font-size:13px; font-weight:800; letter-spacing:.2em; color:var(--wood);
+      }
+      .sec-title{
+        margin:0; font-size:clamp(34px,5.4vw,58px); font-weight:900;
+        letter-spacing:-.015em; line-height:1.02;
+      }
+      .sec-title .serif-i{ color:var(--wood-deep); }
+      .sec-lede{ max-width:56ch; color:var(--ink-soft); font-size:17px; margin:14px 0 0; }
+
+      /* El contenido se muestra siempre; sin animaciones que lo oculten. */
+
+      /* ---------- Intro ---------- */
+      .intro{ padding-top:clamp(64px,9vw,110px); padding-bottom:0; }
+      .intro p.big{
+        margin:0; max-width:22ch;
+        font-size:clamp(28px,4.6vw,46px); font-weight:800; line-height:1.16; letter-spacing:-.01em;
+      }
+      .intro p.big .serif-i{ color:var(--wood-deep); }
+      .intro-facts{
+        margin-top:clamp(36px,5vw,56px);
+        display:grid; grid-template-columns:1fr; gap:0;
+        border-top:1px solid var(--line);
+      }
+      .fact{ padding:20px 0; border-bottom:1px solid var(--line); }
+      .fact b{ display:block; font-size:19px; font-weight:800; }
+      .fact span{ color:var(--ink-soft); font-size:14.5px; }
+      @media (min-width:760px){
+        .intro-facts{ grid-template-columns:repeat(3,1fr); }
+        .fact{ padding:24px 28px 24px 0; }
+        .fact + .fact{ padding-left:28px; border-left:1px solid var(--line); }
+      }
+
+      /* ---------- Servicios ---------- */
+      .svc-list{ border-top:1px solid var(--line); }
+      .svc{
+        display:grid; grid-template-columns:52px 1fr; gap:6px 18px;
+        padding:30px 0 34px; border-bottom:1px solid var(--line);
+        align-items:start;
+      }
+      .svc-num{
+        font-size:14px; font-weight:800; letter-spacing:.14em; color:var(--wood);
+        padding-top:8px;
+      }
+      .svc h3{ margin:0; font-size:clamp(26px,3.6vw,38px); font-weight:800; letter-spacing:-.01em; line-height:1.08; }
+      .svc p{ margin:10px 0 0; color:var(--ink-soft); max-width:52ch; font-size:16px; }
+      .svc-img{
+        grid-column:1 / -1; margin-top:20px;
+        border-radius:6px; overflow:hidden; aspect-ratio:16/10;
+      }
+      .svc-img img{ width:100%; height:100%; object-fit:cover; }
+      @media (min-width:900px){
+        .svc{ grid-template-columns:72px 1fr 340px; gap:0 28px; align-items:center; padding:38px 0; }
+        .svc-img{ grid-column:auto; margin-top:0; aspect-ratio:4/3; }
+      }
+
+      /* ---------- Trabajos ---------- */
+      .trabajos{ background:var(--bg-2); }
+      .gal{ display:grid; grid-template-columns:1fr; gap:clamp(28px,4vw,48px); }
+      figure.work{ margin:0; }
+      .work .ph{ overflow:hidden; border-radius:6px; }
+      .work img{ width:100%; height:100%; object-fit:cover; transition:transform .8s ease; }
+      .work:hover img{ transform:scale(1.03); }
+      @media (prefers-reduced-motion: reduce){ .work img{ transition:none; } .work:hover img{ transform:none; } }
+      .work figcaption{
+        display:flex; justify-content:space-between; align-items:baseline; gap:14px;
+        padding-top:14px;
+      }
+      .work figcaption b{ font-size:18px; font-weight:800; }
+      .work figcaption span{ font-size:12.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--wood); white-space:nowrap; }
+      .w-tall .ph{ aspect-ratio:4/5; }
+      .w-wide .ph{ aspect-ratio:4/3; }
+      @media (min-width:820px){
+        .gal{ grid-template-columns:1fr 1fr; }
+        .gal .work:nth-child(2){ margin-top:72px; }
+        .gal .work:nth-child(3){ margin-top:-40px; }
+        .gal .work:nth-child(5){ margin-top:-40px; }
+        .gal .work:nth-child(6){ margin-top:32px; }
+      }
+      .gal-note{ margin:clamp(36px,5vw,56px) 0 0; color:var(--ink-soft); font-size:14.5px; max-width:60ch; }
+      .gal-note .serif-i{ color:var(--wood-deep); font-size:16px; }
+
+      /* ---------- Proceso ---------- */
+      .steps{
+        display:grid; grid-template-columns:1fr; gap:0;
+        border-top:1px solid var(--line);
+      }
+      .step{ padding:28px 0 32px; border-bottom:1px solid var(--line); }
+      .step .n{
+        font-size:13px; font-weight:800; letter-spacing:.2em; color:var(--wood);
+        display:block; margin-bottom:14px;
+      }
+      .step h3{ margin:0 0 8px; font-size:23px; font-weight:800; letter-spacing:-.01em; }
+      .step p{ margin:0; color:var(--ink-soft); font-size:15.5px; max-width:30ch; }
+      @media (min-width:860px){
+        .steps{ grid-template-columns:repeat(4,1fr); }
+        .step{ padding:32px 28px 36px 0; border-bottom:none; }
+        .step + .step{ padding-left:28px; border-left:1px solid var(--line); }
+      }
+
+      /* ---------- El taller ---------- */
+      .taller{ background:var(--bg-2); }
+      .taller-grid{ display:grid; grid-template-columns:1fr; gap:clamp(30px,5vw,64px); align-items:center; }
+      .taller-img{ border-radius:6px; overflow:hidden; aspect-ratio:3/2; }
+      .taller-img img{ width:100%; height:100%; object-fit:cover; }
+      .taller-txt h2{
+        margin:0 0 20px; font-size:clamp(32px,4.8vw,52px);
+        font-weight:900; letter-spacing:-.015em; line-height:1.04;
+      }
+      .taller-txt h2 .serif-i{ color:var(--wood-deep); }
+      .taller-txt p{ margin:0 0 16px; color:var(--ink-soft); font-size:16.5px; max-width:54ch; }
+      .taller-txt p b{ color:var(--ink); }
+      .sign{
+        margin-top:26px; padding-top:22px; border-top:1px solid var(--line);
+        display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+      }
+      .sign .name{ font-family:"Newsreader", Georgia, serif; font-style:italic; font-size:26px; color:var(--ink); }
+      .sign .role{ font-size:12.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--wood); }
+      @media (min-width:900px){ .taller-grid{ grid-template-columns:1.05fr 1fr; } }
+
+      /* ---------- Contacto ---------- */
+      .contacto{ text-align:left; }
+      .contacto h2{
+        margin:0; font-weight:900; letter-spacing:-.02em; line-height:.98;
+        font-size:clamp(46px,9vw,104px); max-width:10ch;
+      }
+      .contacto h2 .serif-i{ color:var(--wood-deep); }
+      .contacto .sub{ margin:26px 0 0; color:var(--ink-soft); font-size:17px; max-width:52ch; }
+      .mail-big{
+        display:inline-block; margin-top:clamp(34px,5vw,52px);
+        font-size:clamp(24px,5.2vw,46px); font-weight:800; letter-spacing:-.01em;
+        color:var(--ink); text-decoration:none;
+        border-bottom:3px solid var(--wood); padding-bottom:6px;
+        transition:color .25s ease;
+        word-break:break-all;
+      }
+      .mail-big:hover{ color:var(--wood-deep); }
+      .contact-grid{
+        margin-top:clamp(44px,6vw,72px); padding-top:28px;
+        border-top:1px solid var(--line);
+        display:grid; grid-template-columns:1fr; gap:26px;
+      }
+      .contact-grid h4{
+        margin:0 0 8px; font-size:12.5px; font-weight:800;
+        letter-spacing:.18em; text-transform:uppercase; color:var(--wood);
+      }
+      .contact-grid p{ margin:0; font-size:16.5px; }
+      .contact-grid a{ text-decoration:underline; text-underline-offset:4px; }
+      @media (min-width:760px){ .contact-grid{ grid-template-columns:repeat(3,1fr); } }
+      .btn-dark{
+        display:inline-flex; align-items:center; gap:10px;
+        background:var(--btn-bg); color:var(--btn-ink);
+        font-weight:700; font-size:15px; text-decoration:none;
+        padding:16px 30px; border-radius:999px; margin-top:34px;
+        transition:background .25s ease, color .25s ease;
+      }
+      .btn-dark:hover{ background:var(--wood); color:#fff; }
+      .btn-dark svg{ width:17px; height:17px; }
+
+      footer{
+        border-top:1px solid var(--line);
+        padding:26px clamp(20px,4vw,48px) 34px;
+        display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
+        font-size:13px; color:var(--ink-soft);
+      }
+      footer .fbrand{ font-weight:900; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); font-size:13px; }
+      footer .fbrand span{ color:var(--wood); }
+    </style>
+  </head>
+  <body>
+
+    <nav class="nav" id="nav">
+      <a class="brand" href="#inicio">Taller <span>El Roi</span></a>
+      <div class="nav-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#trabajos">Trabajos</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#taller">El taller</a>
+      </div>
+      <a class="nav-cta" href="#contacto">Pedir cotización</a>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero" id="inicio">
+      <img class="hero-img" src="assets/hero.jpg" alt="Maestro carpintero cortando una tabla de madera a mano en su taller" />
+      <div class="hero-inner">
+        <p class="hero-loc">Taller El Roi · San Miguel de Putushí, Cuenca</p>
+        <h1>Muebles a medida, <span class="serif-i">hechos a mano</span> en Cuenca</h1>
+        <p class="hero-sub">Carpintería artesanal para tu casa: cocinas, clósets, puertas, pérgolas y más — diseñados, fabricados e instalados por el taller de Juan Carlos Pasato.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#contacto">Pedir cotización
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="hero-mail" href="mailto:tallerelroi@gmail.com">tallerelroi@gmail.com</a>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <span>Madera · Piedra · A medida</span>
+        <span>Cuenca — Ecuador</span>
+      </div>
+    </header>
+
+    <!-- INTRO -->
+    <section class="intro">
+      <div class="wrap reveal">
+        <p class="big">Cada pieza nace de una medida, una madera bien elegida y <span class="serif-i">el oficio de siempre.</span></p>
+        <div class="intro-facts">
+          <div class="fact">
+            <b>Trabajo a medida</b>
+            <span>Nada de catálogo genérico: cada mueble se diseña para tu espacio exacto.</span>
+          </div>
+          <div class="fact">
+            <b>Fabricación propia</b>
+            <span>Cortamos, ensamblamos y acabamos todo en nuestro taller en Putushí.</span>
+          </div>
+          <div class="fact">
+            <b>Instalación incluida</b>
+            <span>Dejamos cada pieza instalada, nivelada y lista para usar en tu casa.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="sec-num">01</span>
+          <div>
+            <h2 class="sec-title">Lo que <span class="serif-i">hacemos</span></h2>
+            <p class="sec-lede">Siete oficios, un mismo estándar: medidas exactas, materiales honestos y acabados que se notan al tacto.</p>
+          </div>
+        </div>
+
+        <div class="svc-list">
+          <article class="svc reveal">
+            <span class="svc-num">/ 01</span>
+            <div>
+              <h3>Muebles de cocina</h3>
+              <p>Cocinas diseñadas a la medida de tu espacio: anaqueles, alacenas y módulos con acabados duraderos, pensados para el uso diario de tu familia.</p>
+            </div>
+            <div class="svc-img"><img src="assets/cocina.jpg" alt="Cocina con muebles de madera hechos a medida" /></div>
+          </article>
+
+          <article class="svc reveal">
+            <span class="svc-num">/ 02</span>
+            <div>
+              <h3>Clósets</h3>
+              <p>Clósets y vestidores que aprovechan cada centímetro: cajones, zapateras, barras y repisas distribuidos según tu ropa y tu rutina.</p>
+            </div>
+            <div class="svc-img"><img src="assets/closet.jpg" alt="Clóset vestidor de madera con cajones y repisas" /></div>
+          </article>
+
+          <article class="svc reveal">
+            <span class="svc-num">/ 03</span>
+            <div>
+              <h3>Puertas</h3>
+              <p>Puertas principales e interiores en madera, con el diseño, la veta y el acabado que le dan carácter y seguridad a tu casa.</p>
+            </div>
+            <div class="svc-img"><img src="assets/puertas.jpg" alt="Puerta principal de madera sólida instalada en una casa" /></div>
+          </article>
+
+          <article class="svc reveal">
+            <span class="svc-num">/ 04</span>
+            <div>
+              <h3>Pérgolas</h3>
+              <p>Pérgolas de madera para patios, terrazas y jardines: estructura firme, buena sombra y un rincón para disfrutar la casa todo el año.</p>
+            </div>
+            <div class="svc-img"><img src="assets/pergola.jpg" alt="Pérgola de madera sobre una terraza en un jardín" /></div>
+          </article>
+
+          <article class="svc reveal">
+            <span class="svc-num">/ 05</span>
+            <div>
+              <h3>Huellas para gradas</h3>
+              <p>Huellas —los peldaños de tus escaleras— cortadas y pulidas a medida, con acabado resistente para subir y bajar con confianza todos los días.</p>
+            </div>
+            <div class="svc-img"><img src="assets/gradas.jpg" alt="Escalera con huellas de madera pulida" /></div>
+          </article>
+
+          <article class="svc reveal">
+            <span class="svc-num">/ 06</span>
+            <div>
+              <h3>Trabajos en piedra</h3>
+              <p>Revestimientos y detalles en piedra para muros, chimeneas y fachadas: textura natural y una presencia que dura décadas.</p>
+            </div>
+            <div class="svc-img"><img src="assets/piedra.jpg" alt="Muro interior revestido en piedra natural" /></div>
+          </article>
+
+          <article class="svc reveal">
+            <span class="svc-num">/ 07</span>
+            <div>
+              <h3>Ranurados</h3>
+              <p>Paneles ranurados de madera para muros de sala, muebles de TV y cabeceras: el detalle moderno que transforma por completo un ambiente.</p>
+            </div>
+            <div class="svc-img"><img src="assets/ranurados.jpg" alt="Panel ranurado de madera en la pared de una sala" /></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRABAJOS -->
+    <section class="trabajos" id="trabajos">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="sec-num">02</span>
+          <div>
+            <h2 class="sec-title">Trabajos que <span class="serif-i">inspiran</span></h2>
+            <p class="sec-lede">Así se ve el tipo de pieza que fabricamos en el taller: sólida, cálida y hecha para durar.</p>
+          </div>
+        </div>
+
+        <div class="gal">
+          <figure class="work w-wide reveal">
+            <div class="ph"><img src="assets/cocina.jpg" alt="Cocina integral de madera con vitrinas y anaqueles" /></div>
+            <figcaption><b>Cocina a medida</b><span>Muebles de cocina</span></figcaption>
+          </figure>
+          <figure class="work w-tall reveal">
+            <div class="ph"><img src="assets/closet.jpg" alt="Vestidor de madera clara con espejo central" /></div>
+            <figcaption><b>Clóset vestidor</b><span>Clósets</span></figcaption>
+          </figure>
+          <figure class="work w-wide reveal">
+            <div class="ph"><img src="assets/pergola.jpg" alt="Pérgola de madera con muebles de terraza bajo los árboles" /></div>
+            <figcaption><b>Pérgola de jardín</b><span>Pérgolas</span></figcaption>
+          </figure>
+          <figure class="work w-tall reveal">
+            <div class="ph"><img src="assets/gradas.jpg" alt="Gradas de madera con pasamanos a juego" /></div>
+            <figcaption><b>Gradas de madera</b><span>Huellas para gradas</span></figcaption>
+          </figure>
+          <figure class="work w-wide reveal">
+            <div class="ph"><img src="assets/ranurados.jpg" alt="Muro de sala con panel ranurado de madera e iluminación cálida" /></div>
+            <figcaption><b>Panel ranurado</b><span>Ranurados</span></figcaption>
+          </figure>
+          <figure class="work w-wide reveal">
+            <div class="ph"><img src="assets/puertas.jpg" alt="Puerta de entrada de madera con herraje negro" /></div>
+            <figcaption><b>Puerta principal</b><span>Puertas</span></figcaption>
+          </figure>
+        </div>
+
+        <p class="gal-note reveal"><span class="serif-i">Nota:</span> imágenes referenciales de los tipos de trabajo que realiza el taller. Muy pronto publicaremos las fotos reales de nuestros proyectos en Cuenca.</p>
+      </div>
+    </section>
+
+    <!-- PROCESO -->
+    <section id="proceso">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="sec-num">03</span>
+          <div>
+            <h2 class="sec-title">Cómo <span class="serif-i">trabajamos</span></h2>
+          </div>
+        </div>
+        <div class="steps reveal">
+          <div class="step">
+            <span class="n">Paso — 01</span>
+            <h3>Visita y medición</h3>
+            <p>Vamos a tu casa, escuchamos tu idea y tomamos las medidas exactas del espacio.</p>
+          </div>
+          <div class="step">
+            <span class="n">Paso — 02</span>
+            <h3>Diseño a medida</h3>
+            <p>Definimos contigo el diseño, la madera y el acabado, y te enviamos tu cotización.</p>
+          </div>
+          <div class="step">
+            <span class="n">Paso — 03</span>
+            <h3>Fabricación</h3>
+            <p>Cortamos, ensamblamos y acabamos tu pieza en el taller, cuidando cada detalle.</p>
+          </div>
+          <div class="step">
+            <span class="n">Paso — 04</span>
+            <h3>Instalación</h3>
+            <p>Instalamos en tu casa, dejamos todo nivelado, limpio y listo para usar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EL TALLER -->
+    <section class="taller" id="taller">
+      <div class="wrap taller-grid">
+        <div class="taller-img reveal"><img src="assets/taller.jpg" alt="Carpintero marcando una tabla de madera en el banco de trabajo del taller" /></div>
+        <div class="taller-txt reveal">
+          <h2>Un taller de barrio, <span class="serif-i">un oficio de familia</span></h2>
+          <p>Taller El Roi está en <b>San Miguel de Putushí, Cuenca</b>, y nace de una convicción sencilla: las cosas bien hechas, con buena madera y sin atajos, duran toda la vida.</p>
+          <p>Aquí no trabajamos con piezas de catálogo. Cada cocina, clóset o puerta se fabrica <b>a la medida de tu casa</b> y se instala con el mismo cuidado con el que se cortó la primera tabla.</p>
+          <div class="sign">
+            <span class="name">Juan Carlos Pasato</span>
+            <span class="role">Fundador · Maestro carpintero</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="contacto" id="contacto">
+      <div class="wrap reveal">
+        <h2>Hablemos de <span class="serif-i">tu proyecto</span></h2>
+        <p class="sub">Cuéntanos qué quieres hacer — una cocina, un clóset, una puerta, una pérgola — y te preparamos una cotización sin compromiso.</p>
+        <a class="mail-big" href="mailto:tallerelroi@gmail.com?subject=Cotizaci%C3%B3n%20%E2%80%94%20Taller%20El%20Roi">tallerelroi@gmail.com</a>
+        <br />
+        <a class="btn-dark" href="mailto:tallerelroi@gmail.com?subject=Cotizaci%C3%B3n%20%E2%80%94%20Taller%20El%20Roi">Pedir cotización
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <div class="contact-grid">
+          <div>
+            <h4>Correo</h4>
+            <p><a href="mailto:tallerelroi@gmail.com">tallerelroi@gmail.com</a></p>
+          </div>
+          <div>
+            <h4>Taller</h4>
+            <p>San Miguel de Putushí<br />Cuenca — Ecuador</p>
+          </div>
+          <div>
+            <h4>Atención</h4>
+            <p>Juan Carlos Pasato<br />Maestro carpintero</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span class="fbrand">Taller <span>El Roi</span></span>
+      <span>Carpintería a medida · San Miguel de Putushí, Cuenca, Ecuador</span>
+      <span>© 2026 Taller El Roi</span>
+      <span>Desarrollado por Jorge Moisés Pasato</span>
+    </footer>
+
+    <script>
+      (function(){
+        var nav = document.getElementById('nav');
+        function onScroll(){
+          if (window.scrollY > window.innerHeight * 0.72) nav.classList.add('scrolled');
+          else nav.classList.remove('scrolled');
+        }
+        window.addEventListener('scroll', onScroll, { passive:true });
+        onScroll();
+      })();
+    </script>
+  </body>
+</html>
