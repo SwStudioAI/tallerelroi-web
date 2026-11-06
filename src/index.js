@@ -8,14 +8,23 @@ const json = (data, status = 200) =>
   });
 
 const CATEGORIAS = [
-  { slug: "muebles-de-cocina", nombre: "Muebles de cocina", foto: "/assets/cocina.jpg", linea: "Cocinas integrales y muebles de cocina a la medida de tu casa." },
-  { slug: "closets", nombre: "Clósets", foto: "/assets/closet.jpg", linea: "Clósets y vestidores que aprovechan cada rincón." },
-  { slug: "puertas", nombre: "Puertas", foto: "/assets/puertas.jpg", linea: "Puertas principales e interiores en madera sólida." },
-  { slug: "pergolas", nombre: "Pérgolas", foto: "/assets/pergola.jpg", linea: "Pérgolas y estructuras de madera para tu terraza o jardín." },
-  { slug: "huellas-para-gradas", nombre: "Huellas para gradas", foto: "/assets/gradas.jpg", linea: "Huellas y pasamanos de madera para tus gradas." },
-  { slug: "trabajos-en-piedra", nombre: "Trabajos en piedra", foto: "/assets/piedra.jpg", linea: "Revestimientos y detalles en piedra natural." },
-  { slug: "ranurados", nombre: "Ranurados", foto: "/assets/ranurados.jpg", linea: "Paneles ranurados de madera que visten cualquier muro." },
+  { slug: "muebles-de-cocina", slot: "cocina", nombre: "Muebles de cocina", foto: "/assets/cocina.jpg", linea: "Cocinas integrales y muebles de cocina a la medida de tu casa." },
+  { slug: "closets", slot: "closet", nombre: "Clósets", foto: "/assets/closet.jpg", linea: "Clósets y vestidores que aprovechan cada rincón." },
+  { slug: "puertas", slot: "puertas", nombre: "Puertas", foto: "/assets/puertas.jpg", linea: "Puertas principales e interiores en madera sólida." },
+  { slug: "pergolas", slot: "pergola", nombre: "Pérgolas", foto: "/assets/pergola.jpg", linea: "Pérgolas y estructuras de madera para tu terraza o jardín." },
+  { slug: "huellas-para-gradas", slot: "gradas", nombre: "Huellas para gradas", foto: "/assets/gradas.jpg", linea: "Huellas y pasamanos de madera para tus gradas." },
+  { slug: "trabajos-en-piedra", slot: "piedra", nombre: "Trabajos en piedra", foto: "/assets/piedra.jpg", linea: "Revestimientos y detalles en piedra natural." },
+  { slug: "ranurados", slot: "ranurados", nombre: "Ranurados", foto: "/assets/ranurados.jpg", linea: "Paneles ranurados de madera que visten cualquier muro." },
 ];
+
+const SLOTS = ["hero", "cocina", "closet", "puertas", "pergola", "gradas", "piedra", "ranurados", "taller"];
+
+async function mapFotos(env) {
+  const { results } = await env.DB.prepare("SELECT slot, foto FROM fotos").all();
+  const map = {};
+  for (const r of results || []) map[r.slot] = r.foto;
+  return map;
+}
 
 const esc = (s) =>
   String(s ?? "").replace(/[&<>"']/g, (c) =>
@@ -129,8 +138,10 @@ export default {
     if (mc && req.method === "GET") {
       const cat = CATEGORIAS.find((c) => c.slug === mc[1]);
       if (cat) {
+        const fotos = await mapFotos(env);
+        const conFoto = fotos[cat.slot] ? { ...cat, foto: fotos[cat.slot] } : cat;
         const trabajos = await listTrabajos(env, cat.nombre);
-        return new Response(paginaCategoria(cat, trabajos), {
+        return new Response(paginaCategoria(conFoto, trabajos), {
           headers: { "content-type": "text/html; charset=utf-8" },
         });
       }
@@ -139,6 +150,9 @@ export default {
     // ---------- API pública ----------
     if (path === "/api/trabajos" && req.method === "GET") {
       return json(await listTrabajos(env));
+    }
+    if (path === "/api/fotos" && req.method === "GET") {
+      return json(await mapFotos(env));
     }
     if (path.startsWith("/media/")) {
       const key = decodeURIComponent(path.slice("/media/".length));
@@ -233,6 +247,41 @@ export default {
           await env.DB.prepare("DELETE FROM trabajos WHERE id = ?").bind(id).run();
           if (prev && prev.foto && prev.foto.startsWith("/media/")) {
             await env.MEDIA.delete(prev.foto.slice("/media/".length)).catch(() => {});
+          }
+          return json({ ok: true });
+        }
+      }
+      const mf = path.match(/^\/api\/admin\/fotos\/([a-z]+)(\/foto)?$/);
+      if (mf && SLOTS.includes(mf[1])) {
+        const slot = mf[1];
+        if (mf[2] === "/foto" && req.method === "POST") {
+          const form = await req.formData().catch(() => null);
+          const file = form && form.get("foto");
+          if (!file || typeof file === "string")
+            return json({ error: "Falta la foto" }, 400);
+          if (file.size > 20 * 1024 * 1024)
+            return json({ error: "La foto supera los 20 MB" }, 400);
+          const prev = await env.DB.prepare("SELECT foto FROM fotos WHERE slot = ?")
+            .bind(slot).first();
+          const key = `fotos/${slot}-${Date.now()}.jpg`;
+          await env.MEDIA.put(key, file.stream(), {
+            httpMetadata: { contentType: file.type || "image/jpeg" },
+          });
+          const foto = `/media/${key}`;
+          await env.DB.prepare(
+            "INSERT INTO fotos (slot, foto) VALUES (?, ?) ON CONFLICT(slot) DO UPDATE SET foto = excluded.foto"
+          ).bind(slot, foto).run();
+          if (prev && prev.foto && prev.foto.startsWith("/media/")) {
+            await env.MEDIA.delete(prev.foto.slice(7)).catch(() => {});
+          }
+          return json({ foto });
+        }
+        if (req.method === "DELETE" && !mf[2]) {
+          const prev = await env.DB.prepare("SELECT foto FROM fotos WHERE slot = ?")
+            .bind(slot).first();
+          await env.DB.prepare("DELETE FROM fotos WHERE slot = ?").bind(slot).run();
+          if (prev && prev.foto && prev.foto.startsWith("/media/")) {
+            await env.MEDIA.delete(prev.foto.slice(7)).catch(() => {});
           }
           return json({ ok: true });
         }

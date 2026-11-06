@@ -71,6 +71,12 @@
       <!-- Panel -->
       <section id="panel" class="hidden">
         <div class="card">
+          <b style="font-size:17px">Fotos de la página</b>
+          <p class="muted">Estas son las fotos que se ven en la página (la principal y la de cada categoría). Cámbialas por fotos de tus propios trabajos cuando quieras; la página se actualiza al momento. Con «Usar la de ejemplo» vuelves a la foto original.</p>
+          <div id="fotos-lista"></div>
+          <p class="msg" id="fotos-msg"></p>
+        </div>
+        <div class="card">
           <div class="row" style="justify-content:space-between">
             <b style="font-size:17px">Trabajos publicados</b>
             <span class="row">
@@ -116,6 +122,17 @@
 
     <script>
       const CATEGORIAS = ["Muebles de cocina","Clósets","Puertas","Pérgolas","Huellas para gradas","Trabajos en piedra","Ranurados"];
+      const SLOTS = [
+        ["hero", "Foto principal (portada)", "/assets/hero.jpg"],
+        ["cocina", "Muebles de cocina", "/assets/cocina.jpg"],
+        ["closet", "Clósets", "/assets/closet.jpg"],
+        ["puertas", "Puertas", "/assets/puertas.jpg"],
+        ["pergola", "Pérgolas", "/assets/pergola.jpg"],
+        ["gradas", "Huellas para gradas", "/assets/gradas.jpg"],
+        ["piedra", "Trabajos en piedra", "/assets/piedra.jpg"],
+        ["ranurados", "Ranurados", "/assets/ranurados.jpg"],
+        ["taller", "Sección «El Taller»", "/assets/taller.jpg"],
+      ];
       const $ = (s, r=document) => r.querySelector(s);
       let key = sessionStorage.getItem("roi_key") || "";
       let trabajos = [];
@@ -128,6 +145,55 @@
       };
 
       function msg(el, text, ok=true){ el.textContent = text; el.className = "msg " + (ok ? "ok" : "err"); }
+
+      async function cargarFotos(){
+        const res = await fetch("/api/fotos");
+        const mapa = res.ok ? await res.json() : {};
+        const cont = $("#fotos-lista"); cont.innerHTML = "";
+        SLOTS.forEach(([slot, etiqueta, defecto]) => {
+          const actual = mapa[slot] || defecto;
+          const propia = !!mapa[slot];
+          const row = document.createElement("div");
+          row.className = "trabajo";
+          row.style.marginTop = "14px";
+          row.innerHTML = `
+            <div class="ph"><img src="${actual}" alt=""></div>
+            <div>
+              <b>${etiqueta}</b>
+              <p class="muted" style="margin:4px 0 8px">${propia ? "Foto tuya, puesta por ti." : "Foto de ejemplo."}</p>
+              <input type="file" accept="image/*" />
+              <div class="row" style="margin-top:10px">
+                <button class="b-cambiar">Cambiar foto</button>
+                <button class="b-reset sec" ${propia ? "" : "disabled"}>Usar la de ejemplo</button>
+              </div>
+              <p class="msg"></p>
+            </div>`;
+          const m = $(".msg", row);
+          $(".b-cambiar", row).addEventListener("click", async (ev) => {
+            const file = $("input[type=file]", row).files[0];
+            if (!file){ msg(m, "Primero elige una foto.", false); return; }
+            const btn = ev.currentTarget; btn.disabled = true; msg(m, "Subiendo...");
+            try {
+              const foto = await prepararFoto(file);
+              const fd = new FormData(); fd.append("foto", foto, "foto.jpg");
+              const r = await api(`/api/admin/fotos/${slot}/foto`, { method: "POST", body: fd });
+              $("img", row).src = r.foto;
+              msg(m, "Foto cambiada. Ya se ve en tu página.");
+              cargarFotos();
+            } catch(e){ msg(m, e.message, false); }
+            btn.disabled = false;
+          });
+          $(".b-reset", row).addEventListener("click", async (ev) => {
+            const btn = ev.currentTarget; btn.disabled = true;
+            try {
+              await api(`/api/admin/fotos/${slot}`, { method: "DELETE" });
+              msg(m, "Volvió la foto de ejemplo.");
+              cargarFotos();
+            } catch(e){ msg(m, e.message, false); btn.disabled = false; }
+          });
+          cont.appendChild(row);
+        });
+      }
 
       async function cargar(){
         trabajos = await api("/api/admin/trabajos");
@@ -213,6 +279,7 @@
           sessionStorage.setItem("roi_key", key);
           $("#login").classList.add("hidden");
           $("#panel").classList.remove("hidden");
+          await cargarFotos();
           await cargar();
         } catch(e){ msg(m, "Clave incorrecta. Revisa e inténtalo de nuevo.", false); }
       }
@@ -238,6 +305,7 @@
         api("/api/admin/trabajos").then(() => {
           $("#login").classList.add("hidden");
           $("#panel").classList.remove("hidden");
+          cargarFotos();
           cargar();
         }).catch(() => sessionStorage.removeItem("roi_key"));
       }
